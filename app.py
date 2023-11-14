@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io import wavfile
-
+#hello test
+#cameron test, for antonio
 def read_wav_file(file_path):
     framerate, signal = wavfile.read(file_path)
     return signal, framerate
@@ -40,3 +41,5 @@ if __name__ == "__main__":
     
     # Plot the FFT graph
     plot_fft_graph(signal, framerate)
+    #Dhruv Test
+    #cameron test again
