@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io import wavfile
 #hello test
+#cameron test, for antonio
 def read_wav_file(file_path):
     framerate, signal = wavfile.read(file_path)
     return signal, framerate
