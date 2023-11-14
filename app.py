@@ -32,7 +32,7 @@ def plot_fft_graph(signal, framerate):
     plt.show()
 
 if __name__ == "__main__":
-    file_path = ".\\youtube_video_sample_audio_piano_c_major_scale.wav"
+    file_path = ".\\WAV_File.wav"
     
     signal, framerate = read_wav_file(file_path)
     
