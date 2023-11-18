@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io import wavfile
-#hello test
-#cameron test, for antonio
 def read_wav_file(file_path):
     framerate, signal = wavfile.read(file_path)
     return signal, framerate
@@ -25,6 +23,8 @@ def plot_fft_graph(signal, framerate):
     fft_freq = fft_freq[positive_freq_mask]
     fft_result = fft_result[positive_freq_mask]
 
+    fft_result = 2.0/n * np.abs(fft_result)
+
     plt.plot(fft_freq, np.abs(fft_result))
     plt.title('FFT (Frequency Domain)')
     plt.xlabel('Frequency (Hz)')
@@ -32,7 +32,7 @@ def plot_fft_graph(signal, framerate):
     plt.show()
 
 if __name__ == "__main__":
-    file_path = ".\\C_major_scale_audio.wav"
+    file_path = ".\\WAV_File.wav"
     
     signal, framerate = read_wav_file(file_path)
     
@@ -41,5 +41,3 @@ if __name__ == "__main__":
     
     # Plot the FFT graph
     plot_fft_graph(signal, framerate)
-    #Dhruv Test
-    #cameron test again
