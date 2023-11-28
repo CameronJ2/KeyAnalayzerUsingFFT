@@ -1,74 +1,47 @@
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 from scipy.io import wavfile
 from scipy.signal import find_peaks
+from pydub import AudioSegment
 
-def read_wav_file(file_path):
-    framerate, signal = wavfile.read(file_path)
-    return signal, framerate
+# Load the audio file
+audio = AudioSegment.from_wav('C_major_scale_cut.wav')
 
-def plot_wave_graph(signal, framerate):
-    time = np.arange(0, len(signal)) / float(framerate)
-    plt.plot(time, signal)
-    plt.title('Waveform')
-    plt.xlabel('Time (s)')
-    plt.ylabel('Amplitude')
-    plt.show()
+# Convert stereo to mono
+audio = audio.set_channels(1)
 
-def plot_fft_graph(signal, framerate):
-    n = len(signal)
-    fft_result = np.fft.fft(signal)
-    fft_freq = np.fft.fftfreq(n, d=1.0/framerate)
-    
-    # Ignore the negative frequencies
-    positive_freq_mask = fft_freq > 0
-    fft_freq = fft_freq[positive_freq_mask]
-    fft_result = fft_result[positive_freq_mask]
+# Adjust the sample width to 16 bits (if needed)
+audio = audio.set_sample_width(2)
 
-    plt.plot(fft_freq, np.abs(fft_result))
-    plt.title('FFT (Frequency Domain)')
-    plt.xlabel('Frequency (Hz)')
-    plt.ylabel('Amplitude')
-    plt.show()
+# Export the processed audio
+audio.export('processed_audio.wav', format='wav')
 
-    return fft_freq, np.abs(fft_result)
+# Load the audio file
+sample_rate, audio_data = wavfile.read('processed_audio.wav')
 
-def identify_notes(fft_freq, fft_result):
-    # Find peaks in the frequency spectrum
-    peaks, _ = find_peaks(np.abs(fft_result), height=1000)  # Adjust the height threshold as needed
-    
-    # Mapping frequencies to musical notes
-    note_freqs = {
-        'C': 261.63,
-        'D': 293.66,
-        'E': 329.63,
-        'F': 349.23,
-        'G': 392.00,
-        'A': 440.00,
-        'B': 493.88
-    }
+# Choose a segment of the audio for analysis
+start_index = 0
+end_index = 44100  # Adjust based on your requirements
 
-    # Identify the closest note for each peak
-    identified_notes = []
-    for peak in peaks:
-        closest_note = min(note_freqs, key=lambda x: abs(note_freqs[x] - fft_freq[peak]))
-        identified_notes.append(closest_note)
+# Perform FFT
+fft_result = np.fft.fft(audio_data[start_index:end_index])
 
-    return peaks, identified_notes
+# Calculate the frequencies corresponding to the FFT result
+frequencies = np.fft.fftfreq(len(fft_result), d=1/sample_rate)
 
-if __name__ == "__main__":
-    # Replace 'your_audio_file.wav' with the path to your WAV file
-    file_path = ".\youtube_video_sample_audio_piano_c_major_scale.wav"
-    
-    signal, framerate = read_wav_file(file_path)
-    
-    # Plot the original wave graph
-    plot_wave_graph(signal, framerate)
-    
-    # Plot the FFT graph and identify notes
-    fft_freq, fft_result = plot_fft_graph(signal, framerate)
-    peaks, identified_notes = identify_notes(fft_freq, fft_result)
+# Plot the FFT result
+plt.plot(frequencies, np.abs(fft_result))
+plt.title('FFT Result')
+plt.xlabel('Frequency (Hz)')
+plt.ylabel('Amplitude')
+plt.show()
 
-    # Print identified notes and corresponding frequencies
-    for i, note in enumerate(identified_notes):
-        print(f"Peak {i+1}: {note} ({fft_freq[peaks[i]]} Hz)")
+# Identify peaks in the FFT result with a threshold
+threshold = 1000  # Adjust based on your specific case
+peaks, _ = find_peaks(np.abs(fft_result), height=threshold)
+
+# Convert peak indices to frequencies
+identified_frequencies = frequencies[peaks]
+
+# Print or process the identified frequencies
+print('Identified Frequencies:', identified_frequencies)
