@@ -6,9 +6,9 @@ from scipy.io import wavfile
 FILE_PATH = "C_major_scale_cut.wav"
 MIN_FREQ = 10
 MAX_FREQ = 1000
-""" NOTES = {
-    "A0": [27.50, 30.867], "B0" : [30.868, 32.702], "C1" : [32.703,36.708] 
-} """
+NOTES = {
+    "A0": [27.50, 30.867], "B0" : [30.868, 32.702], "C1" : [32.703,36.707], "D1" : [36.708, 41.202], "E1" : [41.203, 43.653], "F1" : [43.654, 48.998], "G1" : [48.999, 54.999], "A1" : [55.0, 61.734], "B1" : [61.735, 65.405], "C2" : [65.406, 73.415], "D2" : [73.416, 82.406], "E2" : [82.407, 87.306], "F2" : [87.307, 97.998], "G2" : [97.999], "A2" : [], "B2" : [], "C3" : [], "D3" : [], "E3" : [], "F3" : [], "G3" : [], "A3" : [], "B3" : [], "C4" : [], "D4" : [], "E4" : [], "F4" : [], "G4" : [], "A4" : [], "B4" : [], "C5" : [], "D5" : [], "E5" : [], "F5" : [], "G5" : [], "A5" : [], "B5" : [], "C6" : [], "D6" : [], "E6" : [], "F6" : [], "G6" : [], "A6" : [], "B6" : [], "C7" : [], "D7" : [], "E7" : [], "F7" : [], "G7" : [], "A7" : [], "B7" : [], "C8" : []
+}
 AUDIO_FILE = "C_major_scale_cut.wav"
 FFT_PORTIONS = 0.25 #Each FFT calculation will use .25 seconds of audio.
 
@@ -52,7 +52,9 @@ for portion_idx in range(NUM_PORTIONS):
     # Check if the last four values are the same
     if (portion_idx > 4):
         if (max_frequency_over_time[-1] == max_frequency_over_time[-2] == max_frequency_over_time[-3] == max_frequency_over_time[-4] and max_frequency_over_time[-1] > 20):
-            print("4 frequencies found in sequence: {}".format(max_frequency_over_time[-1]))
+            if (prev_value != max_frequency_over_time[-1]):
+                print("4 frequencies found in sequence: {}".format(max_frequency_over_time[-1]))
+            prev_value = max_frequency_over_time[-1]
 
             """ # Find the note corresponding to the detected frequency
             detected_frequency = max_frequency_over_time[-1]
@@ -73,3 +75,13 @@ for portion_idx in range(NUM_PORTIONS):
 #https://newt.phys.unsw.edu.au/music/note/
 
 
+""" 
+Encountered troubles:
+    Time Domain vs Frequency Domain and "frequency bins"
+    multi-channel
+    
+
+Concerns:
+    try and convert to video?
+    
+"""
