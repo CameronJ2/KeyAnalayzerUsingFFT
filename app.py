@@ -39,8 +39,6 @@ AUDIO_LENGTH = len(data) / fs #samples / sample rate = seconds
 FFT_SAMPLES_PER_PORTION = FFT_PORTIONS * fs 
 NUM_PORTIONS = int(np.floor(len(data) / FFT_SAMPLES_PER_PORTION))
 max_frequency_over_time = []
-prev_values = []
-notes_played = []
 prev_value = "0"
 frequencies_played = []
 
