@@ -14,7 +14,7 @@ FPS = 30
 FFT_WINDOW_SECONDS = 0.25 # how many seconds of audio make up an FFT window
 
 # Note range to display
-FREQ_MIN = 10
+FREQ_MIN = 0
 FREQ_MAX = 1000
 
 # Notes to display
@@ -27,7 +27,7 @@ NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 RESOLUTION = (1920, 1080)
 SCALE = 1 # 0.5=QHD(960x540), 1=HD(1920x1080), 2=4K(3840x2160)
 
-AUDIO_FILE = "C_major_scale_cut.wav"
+AUDIO_FILE = "d-major-scale.wav"
 
 fs, data = wavfile.read(os.path.join(PATH,AUDIO_FILE)) # load the data
 audio = data.T[0] # this is a two channel soundtrack, get the first track

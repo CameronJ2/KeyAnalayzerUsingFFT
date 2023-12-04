@@ -5,8 +5,7 @@ from youtubeExampleCompiled import FPS, RESOLUTION, AUDIO_FILE
 FPS = 30
 RESOLUTION = (1920, 1080)
 OUTPUT_VIDEO = 'output_video.mp4'
-FRAME_DIRECTORY = './frames/'
-AUDIO_FILE = 'C_major_scale_cut.wav'  # Change this to your audio file
+FRAME_DIRECTORY = './frames/' # Change this to your audio file
 
 # Run ffmpeg command
 cmd = [
